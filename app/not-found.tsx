@@ -1,0 +1,2 @@
+import Link from 'next/link'
+export default function NotFound() { return <main style={{minHeight:'100vh',display:'grid',placeItems:'center',background:'#FAF8F4',color:'#14110F',padding:32,textAlign:'center'}}><div><p style={{color:'#D9480F',fontWeight:800,letterSpacing:'.15em'}}>ORIGINALS BY SHIVAAM</p><h1 style={{fontSize:'clamp(56px,10vw,120px)',margin:'20px 0',letterSpacing:'-.08em'}}>Page not found.</h1><Link href="/" style={{textDecoration:'underline'}}>Back to the shoe wall</Link></div></main> }
