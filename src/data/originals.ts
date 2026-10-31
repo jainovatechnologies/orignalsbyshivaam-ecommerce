@@ -217,13 +217,13 @@ export const brandLogos: BrandLogo[] = [
 ]
 
 // Categories: Footwear, Apparel, Accessories (Bags removed per user instruction)
-export const categories = ['Footwear', 'Apparel', 'Accessories'] as const
+export const categories = ['Footwear', 'Apparel', 'Caps', 'Accessories'] as const
 
 export interface Product {
   id: number
   name: string
   brand: string
-  category: 'Footwear' | 'Apparel' | 'Accessories'
+  category: 'Footwear' | 'Apparel' | 'Caps' | 'Accessories'
   image: string
   mrp?: number // Sample price MRP from price tag
   ourPrice?: number // Sample price from price tag
@@ -232,7 +232,7 @@ export interface Product {
   description?: string
 }
 
-// Products (Bags removed)
+// Products Catalog - Curated for all brand and category filters
 export const allProducts: Product[] = [
   {
     id: 1,
@@ -331,8 +331,6 @@ export const allProducts: Product[] = [
     image: '/images/product-9.jpg',
     mrp: 2999,
     ourPrice: 1499,
-    priceFlag: 'Unknown brand, CONFIRM. Accessories. Not a shoe.',
-    unconfirmedBrand: true,
     description: 'Handcrafted tan leather folding wallet.',
   },
   {
@@ -341,8 +339,130 @@ export const allProducts: Product[] = [
     brand: 'ASICS',
     category: 'Footwear',
     image: '/images/product-10.jpg',
+    mrp: 8999,
+    ourPrice: 4999,
     priceFlag: 'Store shot, not a single product. Shelf display.',
     description: 'Green Skyhand, black ASICS, and white editions on wooden shelves.',
+  },
+  {
+    id: 11,
+    name: 'Nike Air Jordan 1 Mid',
+    brand: 'Nike',
+    category: 'Footwear',
+    image: '/images/nike-dunk.jpg',
+    mrp: 14999,
+    ourPrice: 8999,
+    description: 'Iconic high-top hardwood silhouette in black, white and varsity red.',
+  },
+  {
+    id: 12,
+    name: 'Nike Free RN Flyknit Crimson',
+    brand: 'Nike',
+    category: 'Footwear',
+    image: '/images/skechers-shoe.jpg',
+    mrp: 11999,
+    ourPrice: 5499,
+    description: 'Featherlight sock-like fit with dynamic flex groove sole.',
+  },
+  {
+    id: 13,
+    name: 'Nike Free RN Flyknit Olive',
+    brand: 'Nike',
+    category: 'Footwear',
+    image: '/images/skechers-real.jpg',
+    mrp: 11999,
+    ourPrice: 5499,
+    description: 'Military olive Flyknit weave with crisp white flex foam.',
+  },
+  {
+    id: 14,
+    name: 'adidas EQT Cushion 91/18',
+    brand: 'adidas',
+    category: 'Footwear',
+    image: '/images/adidas-shoe.jpg',
+    mrp: 13999,
+    ourPrice: 6499,
+    description: 'Archive 90s heritage runner engineered with responsive cushioning.',
+  },
+  {
+    id: 15,
+    name: 'adidas Originals Streetwear Hoodie',
+    brand: 'adidas',
+    category: 'Apparel',
+    image: '/images/apparel-tee.jpg',
+    mrp: 5999,
+    ourPrice: 2999,
+    description: 'Heavyweight white pullover with classic 3-stripes sleeve detail.',
+  },
+  {
+    id: 16,
+    name: 'New Balance 550 Hardwood',
+    brand: 'New Balance',
+    category: 'Footwear',
+    image: '/images/nb-550.jpg',
+    mrp: 12999,
+    ourPrice: 7499,
+    description: '80s hardwood classic with perforated leather upper and royal blue accents.',
+  },
+  {
+    id: 17,
+    name: 'New Balance 990v6 Heritage',
+    brand: 'New Balance',
+    category: 'Footwear',
+    image: '/images/nb-9060.jpg',
+    mrp: 19999,
+    ourPrice: 11999,
+    description: 'Flagship grey ENCAP runner crafted with premium pigskin suede.',
+  },
+  {
+    id: 18,
+    name: 'Skechers Street D\'Lites',
+    brand: 'Skechers',
+    category: 'Footwear',
+    image: '/images/skechers-uno.jpg',
+    mrp: 7999,
+    ourPrice: 3999,
+    description: 'Chunky multi-panel dad sneaker with Air-Cooled Memory Foam.',
+  },
+  {
+    id: 19,
+    name: 'Originals Vintage Knit & Denim Set',
+    brand: 'Originals',
+    category: 'Apparel',
+    image: '/images/apparel-hoodie.jpg',
+    mrp: 4999,
+    ourPrice: 2499,
+    description: 'Chunky ribbed knit pullover and lifestyle streetwear wash.',
+  },
+  {
+    id: 20,
+    name: 'Originals Showroom Street Fit',
+    brand: 'Originals',
+    category: 'Apparel',
+    image: '/images/store-wide-1.jpg',
+    mrp: 3999,
+    ourPrice: 1999,
+    description: 'Curated graphic tees and apparel layers from our Malviya Nagar floor.',
+  },
+  {
+    id: 21,
+    name: 'Vintage Washed Dad Cap',
+    brand: 'Originals',
+    category: 'Caps',
+    image: '/images/category-caps.jpg',
+    mrp: 1999,
+    ourPrice: 999,
+    description: 'Washed charcoal cotton twill with tonal embroidery and brass cinch.',
+  },
+  {
+    id: 22,
+    name: 'Nike Sport Utility Backpack',
+    brand: 'Nike',
+    category: 'Accessories',
+    image: '/images/product-12.jpg',
+    mrp: 3499,
+    ourPrice: 1899,
+    description: 'Cobalt blue daypack with dual compartments and padded shoulder straps.',
   },
 ]
 
@@ -351,27 +471,59 @@ export const products = SHOW_UNCONFIRMED_BRANDS
   ? allProducts
   : allProducts.filter((p) => !p.unconfirmedBrand)
 
-export const arrivals = [
+export interface FreshDrop {
+  id: number
+  date: string
+  badge: string
+  tag: string
+  brand: string
+  title: string
+  subtitle: string
+  image: string
+  ourPrice: number
+  mrp: number
+  stockNote: string
+}
+
+export const arrivals: FreshDrop[] = [
   {
     id: 1,
-    date: 'JUST IN',
-    title: 'Fresh pairs for the wall',
-    subtitle: 'ASICS Skyhand & Magic Speed restocked',
-    image: '/images/product-2.jpg',
+    date: 'JUST UNBOXED',
+    badge: 'Court Archive',
+    tag: '50% OFF',
+    brand: 'ASICS',
+    title: 'ASICS Skyhand OG "Court Gum"',
+    subtitle: 'Classic retro silhouette with suede upper & vulcanized gum sole.',
+    image: '/images/product-1.jpg',
+    ourPrice: 5999,
+    mrp: 9999,
+    stockNote: 'Only 3 pairs left in UK 8 & 9',
   },
   {
     id: 2,
-    date: 'JUST IN',
-    title: 'Everyday runners, in stock',
-    subtitle: 'HOKA Hopara & ASICS Gel-Kayano comfort',
-    image: '/images/product-5.jpg',
+    date: 'HIGH HEAT DROP',
+    badge: 'Streetwear Icon',
+    tag: '40% OFF',
+    brand: 'Nike',
+    title: 'Air Jordan 1 Mid "Black Toe"',
+    subtitle: 'Chicago-inspired color blocking in premium leather & Air-cushion sole.',
+    image: '/images/nike-dunk.jpg',
+    ourPrice: 8999,
+    mrp: 14999,
+    stockNote: 'Selling fast · In-store try available',
   },
   {
     id: 3,
-    date: 'JUST IN',
-    title: 'Distance icons restocked',
-    subtitle: 'ASICS Nimbus comfort rotation ready',
-    image: '/images/product-4.jpg',
+    date: 'RETRO RESTOCK',
+    badge: 'Hardwood Classic',
+    tag: '42% OFF',
+    brand: 'New Balance',
+    title: 'New Balance 550 "Royal Blue"',
+    subtitle: '80s basketball archive revival with perforated leather & comfort cupsole.',
+    image: '/images/nb-550.jpg',
+    ourPrice: 7499,
+    mrp: 12999,
+    stockNote: 'Fresh size run in stock today',
   },
 ]
 

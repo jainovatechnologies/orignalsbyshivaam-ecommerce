@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { CheckCircle2, Star, ThumbsUp } from 'lucide-react'
+import { Star } from 'lucide-react'
 import { reviews, store } from '@/src/data/originals'
 import { CountUp } from './count-up'
 import { ScrollReveal } from './scroll-reveal'
@@ -82,10 +82,6 @@ export function CustomerReviews() {
                         <Star key={starIdx} size={14} fill="#F15A22" stroke="none" />
                       ))}
                     </div>
-                    <span className="text-[10px] font-extrabold uppercase tracking-wider text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full flex items-center gap-1">
-                      <CheckCircle2 size={11} />
-                      <span>Verified</span>
-                    </span>
                   </div>
 
                   <p className="text-xs sm:text-sm font-semibold text-[#14110F] leading-snug line-clamp-3">
@@ -121,10 +117,6 @@ export function CustomerReviews() {
                         <Star key={starIdx} size={14} fill="#F15A22" stroke="none" />
                       ))}
                     </div>
-                    <span className="text-[10px] font-extrabold uppercase tracking-wider text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full flex items-center gap-1">
-                      <CheckCircle2 size={11} />
-                      <span>Verified</span>
-                    </span>
                   </div>
 
                   <p className="text-xs sm:text-sm font-semibold text-[#14110F] leading-snug line-clamp-3">

@@ -39,56 +39,47 @@ export function Nav() {
             </div>
           </Link>
 
-          {/* Desktop Nav */}
-          <nav className="hidden items-center gap-7 text-[13px] font-bold md:flex text-[#14110F]">
+          {/* Desktop Nav with Underline Active & Hover Effects (No Fill) */}
+          <nav className="hidden items-center gap-6 lg:gap-7 text-[13px] font-bold md:flex text-[#14110F]">
             <Link
-              href="/#categories"
-              className="transition-colors hover:text-[#D9480F] cursor-pointer"
+              href="/shop"
+              className="group relative py-1.5 text-[13px] font-black text-[#D9480F] transition-colors cursor-pointer"
             >
-              Categories
+              <span className="relative z-10 transition-transform duration-200 group-hover:-translate-y-0.5 inline-block">
+                Shop All
+              </span>
+              {/* Active Underline Indicator */}
+              <span className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#D9480F] rounded-full" />
             </Link>
-            <Link
-              href="/#shoe-wall"
-              className="transition-colors hover:text-[#D9480F] cursor-pointer"
-            >
-              Shoe Wall
-            </Link>
-            <Link
-              href="/#inside-store"
-              className="transition-colors hover:text-[#D9480F] cursor-pointer"
-            >
-              Inside Store
-            </Link>
-            <Link
-              href="/#wholesale"
-              className="transition-colors hover:text-[#D9480F] cursor-pointer"
-            >
-              Wholesale
-            </Link>
-            <Link
-              href="/#reviews"
-              className="transition-colors hover:text-[#D9480F] cursor-pointer"
-            >
-              Reviews
-            </Link>
-            <Link
-              href="/#visit"
-              className="transition-colors hover:text-[#D9480F] cursor-pointer"
-            >
-              Visit
-            </Link>
-            <Link
-              href="/#faq"
-              className="transition-colors hover:text-[#D9480F] cursor-pointer"
-            >
-              FAQ
-            </Link>
+
+            {[
+              { href: '/#categories', label: 'Categories' },
+              { href: '/#shoe-wall', label: 'Shoe Wall' },
+              { href: '/#inside-store', label: 'Inside Store' },
+              { href: '/#wholesale', label: 'Wholesale' },
+              { href: '/#reviews', label: 'Reviews' },
+              { href: '/#visit', label: 'Visit' },
+              { href: '/#faq', label: 'FAQ' },
+            ].map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="group relative py-1.5 text-[13px] font-bold text-[#14110F]/75 hover:text-[#14110F] transition-colors cursor-pointer"
+              >
+                <span className="relative z-10 inline-block transition-transform duration-200 group-hover:-translate-y-0.5">
+                  {item.label}
+                </span>
+                {/* Hover Underline Indicator */}
+                <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#D9480F] rounded-full scale-x-0 group-hover:scale-x-100 transition-transform duration-200 origin-center" />
+              </Link>
+            ))}
+
             <button
               type="button"
               onClick={openCart}
-              className="btn-primary flex items-center gap-2 rounded-full px-5 py-2.5 text-xs font-bold text-white shadow-sm hover:scale-105 active:scale-95 transition-all cursor-pointer"
+              className="btn-primary ml-1 flex items-center gap-2 rounded-full px-5 py-2 text-xs font-bold text-white shadow-xs hover:shadow-md hover:scale-105 active:scale-95 transition-all cursor-pointer"
             >
-              <ShoppingBag size={15} />
+              <ShoppingBag size={14} />
               <span>Bag ({totalCount})</span>
             </button>
           </nav>
@@ -120,54 +111,31 @@ export function Nav() {
           <div className="border-b border-[#E7E1D6] bg-[#FAF8F4] px-6 py-6 md:hidden animate-in slide-in-from-top-2 duration-200">
             <div className="flex flex-col gap-4 text-base font-bold text-[#14110F]">
               <Link
-                href="/#categories"
+                href="/shop"
                 onClick={() => setMobileOpen(false)}
-                className="py-1 cursor-pointer"
+                className="py-2.5 px-1 text-[#D9480F] font-black cursor-pointer flex items-center justify-between border-b-2 border-[#D9480F]"
               >
-                Categories
+                <span>Shop All Catalog</span>
+                <span className="text-xs text-[#D9480F] font-bold">Active</span>
               </Link>
-              <Link
-                href="/#shoe-wall"
-                onClick={() => setMobileOpen(false)}
-                className="py-1 cursor-pointer"
-              >
-                Shoe Wall
-              </Link>
-              <Link
-                href="/#inside-store"
-                onClick={() => setMobileOpen(false)}
-                className="py-1 cursor-pointer"
-              >
-                Inside Store
-              </Link>
-              <Link
-                href="/#wholesale"
-                onClick={() => setMobileOpen(false)}
-                className="py-1 cursor-pointer"
-              >
-                Wholesale
-              </Link>
-              <Link
-                href="/#reviews"
-                onClick={() => setMobileOpen(false)}
-                className="py-1 cursor-pointer"
-              >
-                Customer Reviews
-              </Link>
-              <Link
-                href="/#visit"
-                onClick={() => setMobileOpen(false)}
-                className="py-1 cursor-pointer"
-              >
-                Visit Store
-              </Link>
-              <Link
-                href="/#faq"
-                onClick={() => setMobileOpen(false)}
-                className="py-1 cursor-pointer"
-              >
-                FAQ
-              </Link>
+              {[
+                { href: '/#categories', label: 'Categories' },
+                { href: '/#shoe-wall', label: 'Shoe Wall' },
+                { href: '/#inside-store', label: 'Inside Store' },
+                { href: '/#wholesale', label: 'Wholesale' },
+                { href: '/#reviews', label: 'Customer Reviews' },
+                { href: '/#visit', label: 'Visit Store' },
+                { href: '/#faq', label: 'FAQ' },
+              ].map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setMobileOpen(false)}
+                  className="py-2 px-1 text-[#14110F] hover:text-[#D9480F] transition-all cursor-pointer font-bold border-b border-transparent hover:border-[#D9480F]/40"
+                >
+                  {item.label}
+                </Link>
+              ))}
               <div className="pt-2 flex flex-col gap-2.5">
                 <button
                   type="button"

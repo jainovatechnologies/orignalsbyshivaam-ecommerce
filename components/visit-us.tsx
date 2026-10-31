@@ -56,26 +56,32 @@ export function VisitUs() {
                 </span>
               </div>
 
-              {/* Single Clear Action Button (No repetitive buttons) */}
-              <div className="mt-8 flex flex-wrap items-center gap-3.5">
+              {/* Action Buttons Row - Equal Width 1 Row on Mobile */}
+              <div className="mt-8 grid grid-cols-2 gap-2 sm:flex sm:w-auto sm:items-center sm:gap-3.5">
                 <ActionButton
                   href={googleMapsDirectionsUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   variant="primary"
                   magnetic={true}
-                  className="shadow-sm"
+                  containerClassName="w-full sm:w-auto"
+                  className="w-full px-2.5 sm:px-6 py-2.5 text-xs sm:text-sm font-bold text-center justify-center shadow-sm"
                 >
-                  <Compass size={17} />
-                  <span>Get Directions on Google Maps</span>
+                  <Compass size={16} className="shrink-0" />
+                  <span className="truncate sm:overflow-visible">
+                    <span className="sm:hidden">Directions</span>
+                    <span className="hidden sm:inline">Get Directions on Google Maps</span>
+                  </span>
                 </ActionButton>
                 <ActionButton
                   href={`tel:${store.phone.retail}`}
                   variant="secondary"
                   magnetic={true}
+                  containerClassName="w-full sm:w-auto"
+                  className="w-full px-2.5 sm:px-6 py-2.5 text-xs sm:text-sm font-bold text-center justify-center"
                 >
-                  <Phone size={16} />
-                  <span>Call Showroom</span>
+                  <Phone size={15} className="shrink-0" />
+                  <span className="truncate sm:overflow-visible">Call Showroom</span>
                 </ActionButton>
               </div>
             </div>

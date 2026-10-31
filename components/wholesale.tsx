@@ -1,138 +1,148 @@
 'use client'
 
 import React from 'react'
-import { ArrowRight, Phone, Truck } from 'lucide-react'
-import { m, useReducedMotion } from 'framer-motion'
+import { ArrowRight, Phone, MessageCircle, ShieldCheck, Truck, PackageCheck } from 'lucide-react'
 import { store } from '@/src/data/originals'
-import { ActionButton } from './action-button'
 import { ControlledVideo } from './controlled-video'
 import { ScrollReveal } from './scroll-reveal'
+import { ActionButton } from './action-button'
 
 const steps = [
-  { num: '01', title: 'Enquire', desc: 'Share your retail requirements' },
-  { num: '02', title: 'Choose', desc: 'Pick brand lots and size runs' },
-  { num: '03', title: 'Confirm', desc: 'Lock batch pricing and invoice' },
-  { num: '04', title: 'Dispatch', desc: 'Express insured freight dispatch' },
+  { num: '01', title: 'Enquire', desc: 'Share size & brand requirements' },
+  { num: '02', title: 'Size Runs', desc: 'Pick verified pairs & master cartons' },
+  { num: '03', title: 'Invoice', desc: 'Lock tier pricing & GST billing' },
+  { num: '04', title: 'Dispatch', desc: 'Insured freight dispatch from Jaipur' },
 ]
 
 export function Wholesale() {
-  const shouldReduceMotion = useReducedMotion()
-
-  const boxVariants = {
-    hidden: {
-      y: shouldReduceMotion ? 0 : -50,
-      opacity: shouldReduceMotion ? 1 : 0,
-    },
-    visible: (index: number) => ({
-      y: 0,
-      opacity: 1,
-      transition: {
-        duration: 0.6,
-        delay: shouldReduceMotion ? 0 : index * 0.12,
-        ease: [0.34, 1.56, 0.64, 1],
-      },
-    }),
-  }
+  const whatsappUrl = `https://wa.me/91${store.whatsapp}?text=${encodeURIComponent(
+    'Hi Originals By Shivaam, I am interested in B2B wholesale footwear supply. Please share current available lots and price sheet.'
+  )}`
 
   return (
-    <section id="wholesale" className="py-20 md:py-28 bg-white text-[#14110F] border-t border-[#E7E1D6]">
+    <section id="wholesale" className="py-16 md:py-24 bg-white text-[#14110F] border-t border-[#E7E1D6]">
       <div className="mx-auto max-w-[1780px] px-5 sm:px-8 md:px-12 lg:px-16 2xl:px-20">
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-14 items-center">
-          {/* Left Column: Copy & Steps in clean Light Theme */}
-          <ScrollReveal direction="up" delay={0.1} className="lg:col-span-6">
-            <div>
-              <p className="text-[11px] font-extrabold tracking-[0.2em] text-[#D9480F] uppercase mb-2">
-                04 / WHOLESALE
-              </p>
-              <h2 className="text-[38px] sm:text-[52px] md:text-[66px] font-extrabold tracking-[-0.06em] font-[family-name:var(--font-display)] text-[#14110F] leading-[0.93]">
-                Build your<br />
-                <em className="font-normal text-[#F15A22]">box stack.</em>
-              </h2>
-              <p className="mt-5 text-base sm:text-lg text-[#14110F]/80 leading-relaxed">
-                From first enquiry to dispatch, we keep it simple. Verified
-                footwear inventory, master carton fulfillment, and steady supply
-                for boutiques and resellers across India.
-              </p>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+          
+          {/* Left Column: B2B Information & Actions */}
+          <ScrollReveal direction="up" delay={0.1} className="lg:col-span-7 flex flex-col justify-center">
+            {/* Eyebrow */}
+            <div className="flex items-center gap-2 text-[11px] font-extrabold tracking-[0.2em] text-[#D9480F] uppercase mb-2">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#D9480F]" />
+              <span>04 / B2B WHOLESALE & SUPPLY</span>
+            </div>
 
-              {/* Wholesale Steps as clean light cards */}
-              <div className="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-3 border-t border-[#E7E1D6] pt-6">
-                {steps.map((step) => (
-                  <div
-                    key={step.num}
-                    className="flex flex-col rounded-xl bg-[#FAF8F4] border border-[#E7E1D6] p-3.5 shadow-2xs"
-                  >
-                    <span className="text-xs font-bold text-[#D9480F]">
-                      {step.num}
-                    </span>
-                    <strong className="text-sm font-bold text-[#14110F] mt-1">
-                      {step.title}
-                    </strong>
-                    <span className="text-[11px] text-[#81796F] mt-0.5 leading-tight">
-                      {step.desc}
-                    </span>
-                  </div>
-                ))}
-              </div>
+            {/* Clean Editorial Headline */}
+            <h2 className="text-[32px] sm:text-[42px] md:text-[50px] font-extrabold tracking-[-0.05em] font-[family-name:var(--font-display)] text-[#14110F] leading-[1.02]">
+              Verified footwear supply.<br />
+              <em className="font-normal text-[#F15A22]">Master carton fulfillment.</em>
+            </h2>
 
-              <div className="mt-8 flex flex-wrap items-center gap-4">
-                <ActionButton
-                  href={`tel:${store.phone.retail}`}
-                  variant="primary"
-                  magnetic={true}
-                  className="shadow-sm"
+            <p className="mt-3.5 text-sm sm:text-base text-[#14110F]/75 leading-relaxed max-w-xl">
+              Steady, authenticated inventory for retailers and resellers across India.
+              Curate your size runs, get transparent tiered batch pricing, and receive fast insured dispatch direct from our Jaipur facility.
+            </p>
+
+            {/* 4 Compact Step Chips */}
+            <div className="mt-6 grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+              {steps.map((step) => (
+                <div
+                  key={step.num}
+                  className="flex flex-col rounded-xl bg-[#FAF8F4] border border-[#E7E1D6] p-3 transition-all hover:border-[#D9480F]/40 hover:-translate-y-0.5"
                 >
-                  <Phone size={16} />
-                  <span>Call B2B Wholesale Desk</span>
-                  <ArrowRight size={16} />
-                </ActionButton>
-                <span className="text-xs text-[#81796F] font-medium">
-                  MOQ & tier price sheets provided immediately
+                  <span className="text-[11px] font-extrabold text-[#D9480F]">
+                    {step.num}
+                  </span>
+                  <strong className="text-xs sm:text-[13px] font-bold text-[#14110F] mt-0.5">
+                    {step.title}
+                  </strong>
+                  <span className="text-[10px] sm:text-[11px] text-[#81796F] mt-0.5 leading-tight line-clamp-2">
+                    {step.desc}
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            {/* Action Buttons Row - Equal Width 1 Row on Mobile */}
+            <div className="mt-7 grid grid-cols-2 gap-2 sm:flex sm:w-auto sm:items-center sm:gap-3">
+              <ActionButton
+                href={whatsappUrl}
+                variant="primary"
+                magnetic={true}
+                target="_blank"
+                rel="noopener noreferrer"
+                containerClassName="w-full sm:w-auto"
+                className="w-full px-2.5 sm:px-6 py-2.5 text-xs sm:text-sm font-bold text-center justify-center shadow-sm"
+              >
+                <MessageCircle size={15} className="shrink-0" />
+                <span className="truncate sm:overflow-visible">
+                  <span className="sm:hidden">WhatsApp</span>
+                  <span className="hidden sm:inline">Wholesale on WhatsApp</span>
                 </span>
+                <ArrowRight size={14} className="shrink-0 hidden xs:inline sm:inline" />
+              </ActionButton>
+
+              <ActionButton
+                href={`tel:${store.phone.retail}`}
+                variant="secondary"
+                magnetic={true}
+                containerClassName="w-full sm:w-auto"
+                className="w-full px-2.5 sm:px-6 py-2.5 text-xs sm:text-sm font-bold text-center justify-center"
+              >
+                <Phone size={14} className="shrink-0" />
+                <span className="truncate sm:overflow-visible">Call B2B Desk</span>
+              </ActionButton>
+            </div>
+
+            {/* Trust Badges Strip */}
+            <div className="mt-6 pt-4 border-t border-[#E7E1D6] flex flex-wrap items-center gap-4 text-xs font-semibold text-[#81796F]">
+              <div className="flex items-center gap-1.5 text-[#14110F]">
+                <Truck size={14} className="text-[#D9480F]" />
+                <span>Pan-India Freight</span>
+              </div>
+              <span className="text-[#D9480F]">·</span>
+              <div className="flex items-center gap-1.5 text-[#14110F]">
+                <ShieldCheck size={14} className="text-[#D9480F]" />
+                <span>100% Insured Transit</span>
+              </div>
+              <span className="text-[#D9480F]">·</span>
+              <div className="flex items-center gap-1.5 text-[#14110F]">
+                <PackageCheck size={14} className="text-[#D9480F]" />
+                <span>Immediate MOQ Sheets</span>
               </div>
             </div>
           </ScrollReveal>
 
-          {/* Right Column: Video & Staggered Falling Boxes in Light Theme */}
-          <ScrollReveal direction="up" delay={0.25} className="lg:col-span-6 flex flex-col gap-6">
-            {/* Wholesale Video in light container */}
-            <div className="relative aspect-video w-full rounded-[22px] overflow-hidden border border-[#E7E1D6] shadow-xl sm:shadow-2xl bg-[#EDE8DF]">
+          {/* Right Column: Clean Video Showcase */}
+          <ScrollReveal direction="up" delay={0.2} className="lg:col-span-5 flex flex-col justify-center">
+            <div className="relative aspect-[4/3] w-full rounded-[22px] overflow-hidden border border-[#E7E1D6] shadow-md bg-[#EDE8DF] group">
               <ControlledVideo
                 src="/videos/wholesale-dispatch.mp4"
                 poster="/images/wholesale-dispatch-poster.jpg"
                 isHero={false}
-                alt="Wholesale dispatch operations at Originals By Shivaam"
+                alt="Wholesale dispatch operations at Originals By Shivaam Jaipur"
+                className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-103"
               />
-            </div>
 
-            {/* Boxes dropping in with stagger on scroll (light container) */}
-            <div className="rounded-[22px] bg-[#FAF8F4] border border-[#E7E1D6] p-6 flex flex-col items-center shadow-xs">
-              <p className="text-xs font-extrabold uppercase tracking-widest text-[#81796F] mb-4">
-                Carton Stacking Ready
-              </p>
-
-              <div className="flex flex-col items-center -space-y-2">
-                {[0, 1, 2, 3].map((index) => (
-                  <m.div
-                    key={index}
-                    custom={index}
-                    variants={boxVariants}
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true, amount: 0.3 }}
-                    className="flex h-14 w-[220px] sm:w-[260px] items-center justify-between rounded-lg border border-[#C74412] bg-[#D9480F] px-4 font-[family-name:var(--font-display)] font-extrabold text-white shadow-md"
-                    style={{
-                      transform: `rotate(${index % 2 === 0 ? '-2deg' : '2deg'})`,
-                    }}
-                  >
-                    <span className="text-sm tracking-tight">ORIGINALS</span>
-                    <span className="text-[9px] font-bold tracking-widest text-white/90">
-                      BY SHIVAAM
-                    </span>
-                  </m.div>
-                ))}
+              {/* Floating Top Status Badge */}
+              <div className="absolute top-3.5 left-3.5 z-20">
+                <div className="flex items-center gap-1.5 rounded-full bg-white/95 backdrop-blur-md px-3 py-1 text-[11px] font-bold text-[#14110F] border border-[#E7E1D6] shadow-2xs">
+                  <span className="h-1.5 w-1.5 rounded-full bg-[#D9480F] animate-pulse" />
+                  <span>Jaipur Hub · Dispatch Ready</span>
+                </div>
               </div>
+
+              {/* Floating Bottom Pill */}
+              <div className="absolute bottom-3.5 right-3.5 z-20">
+                <div className="flex items-center gap-1.5 rounded-full bg-[#14110F]/85 backdrop-blur-md px-3 py-1 text-[11px] font-semibold text-white border border-white/10 shadow-md">
+                  <span>Verified Master Cartons</span>
+                </div>
+              </div>
+
+              <div className="pointer-events-none absolute inset-0 rounded-[22px] ring-1 ring-inset ring-black/5" />
             </div>
           </ScrollReveal>
+
         </div>
       </div>
     </section>

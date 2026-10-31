@@ -13,6 +13,7 @@ import {
 } from '@/src/data/originals'
 import { ScrollReveal } from './scroll-reveal'
 import { useCart } from './cart-context'
+import { ActionButton } from './action-button'
 
 export function ShoeWall() {
   const [selectedBrand, setSelectedBrand] = useState<string>('All')
@@ -33,12 +34,28 @@ export function ShoeWall() {
     }
   }, [selectedProduct])
 
-  const filterOptions = ['All', ...brands, 'Apparel', 'Accessories']
+  const filterOptions = [
+    'All',
+    'ASICS',
+    'HOKA',
+    'Nike',
+    'adidas',
+    'New Balance',
+    'Skechers',
+    'Apparel',
+    'Caps',
+    'Accessories',
+  ]
 
   const filteredProducts = useMemo(() => {
     if (selectedBrand === 'All') return products
     return products.filter((p) => p.brand === selectedBrand || p.category === selectedBrand)
   }, [selectedBrand])
+
+  // Limit to exactly 2 rows on the homepage (10 items on 5-col grid)
+  const displayedProducts = useMemo(() => {
+    return filteredProducts.slice(0, 10)
+  }, [filteredProducts])
 
   const handleQuickAdd = (product: Product, size: string) => {
     addToCart(product, size)
@@ -48,19 +65,34 @@ export function ShoeWall() {
   return (
     <section id="shoe-wall" className="py-20 md:py-28 bg-white relative border-t border-[#E7E1D6]">
       <div className="mx-auto max-w-[1780px] px-5 sm:px-8 md:px-12 lg:px-16 2xl:px-20">
-        {/* Section Heading */}
+        {/* Section Heading & View All Button */}
         <ScrollReveal>
-          <div className="max-w-2xl">
-            <p className="text-[11px] font-extrabold tracking-[0.2em] text-[#D9480F] uppercase mb-2">
-              02 / THE SHOE WALL
-            </p>
-            <h2 className="text-[38px] sm:text-[52px] md:text-[68px] font-extrabold tracking-[-0.06em] font-[family-name:var(--font-display)] text-[#14110F] leading-[0.93]">
-              Pick your next<br />
-              <em className="font-normal text-[#F15A22]">everyday icon.</em>
-            </h2>
-            <p className="mt-5 text-base sm:text-lg text-[#14110F]/80">
-              Select your UK size and order online with fast Pan-India express delivery.
-            </p>
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6">
+            <div className="max-w-2xl">
+              <p className="text-[11px] font-extrabold tracking-[0.2em] text-[#D9480F] uppercase mb-2">
+                02 / THE SHOE WALL
+              </p>
+              <h2 className="text-[38px] sm:text-[52px] md:text-[68px] font-extrabold tracking-[-0.06em] font-[family-name:var(--font-display)] text-[#14110F] leading-[0.93]">
+                Pick your next<br />
+                <em className="font-normal text-[#F15A22]">everyday icon.</em>
+              </h2>
+              <p className="mt-5 text-base sm:text-lg text-[#14110F]/80">
+                Select your UK size and order online with fast Pan-India express delivery.
+              </p>
+            </div>
+
+            <div className="shrink-0 pb-1">
+              <ActionButton
+                href={selectedBrand === 'All' ? '/shop' : `/shop?brand=${encodeURIComponent(selectedBrand)}`}
+                variant="primary"
+                magnetic={true}
+                className="shadow-sm"
+              >
+                <ShoppingBag size={15} />
+                <span>View All ({filteredProducts.length})</span>
+                <ArrowRight size={15} />
+              </ActionButton>
+            </div>
           </div>
         </ScrollReveal>
 
@@ -84,9 +116,9 @@ export function ShoeWall() {
           </div>
         </ScrollReveal>
 
-        {/* Product Grid */}
-        <div className="grid grid-cols-2 gap-4 sm:gap-6 md:grid-cols-3 lg:grid-cols-4">
-          {filteredProducts.map((product, idx) => {
+        {/* Product Grid - Compact 5-col / 4-col sleek layout (Showing 2 rows) */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4">
+          {displayedProducts.map((product, idx) => {
             const price = product.ourPrice || 4499
             const mrp = product.mrp || 8999
             const discountPercent = Math.round(((mrp - price) / mrp) * 100)
@@ -94,47 +126,47 @@ export function ShoeWall() {
               <ScrollReveal
                 key={product.id}
                 direction="up"
-                delay={shouldReduceMotion ? 0 : Math.min((idx % 4) * 0.08, 0.3)}
+                delay={shouldReduceMotion ? 0 : Math.min((idx % 5) * 0.06, 0.25)}
                 className="flex flex-col"
               >
-                <div className="group relative flex flex-col justify-between rounded-2xl border border-[#E7E1D6] bg-white p-3 sm:p-3.5 shadow-2xs hover:shadow-xl hover:border-[#D9480F]/40 hover:-translate-y-1.5 transition-all duration-300">
+                <div className="group relative flex flex-col justify-between rounded-xl sm:rounded-2xl border border-[#E7E1D6] bg-white p-2.5 sm:p-3 shadow-2xs hover:shadow-lg hover:border-[#D9480F]/40 hover:-translate-y-1 transition-all duration-300">
                   <Link
                     href={`/products/${product.id}`}
-                    className="flex flex-col text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D9480F] rounded-xl"
+                    className="flex flex-col text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D9480F] rounded-lg"
                   >
-                    {/* Media container - Clean & clear image without overlapping labels */}
-                    <div className="relative aspect-square w-full overflow-hidden rounded-xl bg-[#F6F4EE]">
+                    {/* Media container - Clean & clear image */}
+                    <div className="relative aspect-square w-full overflow-hidden rounded-lg sm:rounded-xl bg-[#F6F4EE]">
                       <Image
                         src={product.image}
                         alt={product.name}
                         fill
-                        sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                        sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 20vw"
                         quality={75}
                         className="object-cover transition-transform duration-500 ease-out group-hover:scale-106"
                       />
                     </div>
 
                     {/* Info block */}
-                    <div className="pt-3.5 pb-1 flex flex-col">
+                    <div className="pt-2.5 pb-0.5 flex flex-col">
                       <div className="flex items-center justify-between gap-1">
-                        <span className="text-[10px] font-black uppercase tracking-wider text-[#9C7A52]">
+                        <span className="text-[9px] font-black uppercase tracking-wider text-[#9C7A52]">
                           {product.brand}
                         </span>
                         {discountPercent > 0 && (
-                          <span className="rounded-md bg-[#D9480F]/10 border border-[#D9480F]/20 px-2 py-0.5 text-[10px] font-extrabold text-[#D9480F]">
+                          <span className="rounded bg-[#D9480F]/10 border border-[#D9480F]/20 px-1.5 py-0.5 text-[9px] font-extrabold text-[#D9480F]">
                             {discountPercent}% OFF
                           </span>
                         )}
                       </div>
-                      <h3 className="text-sm sm:text-[15px] font-bold text-[#14110F] line-clamp-1 group-hover:text-[#D9480F] transition-colors mt-1">
+                      <h3 className="text-xs sm:text-[13px] font-bold text-[#14110F] line-clamp-1 group-hover:text-[#D9480F] transition-colors mt-0.5">
                         {product.name}
                       </h3>
 
-                      <div className="flex items-baseline gap-2 mt-2">
-                        <strong className="text-sm sm:text-base font-black text-[#14110F]">
+                      <div className="flex items-baseline gap-1.5 mt-1.5">
+                        <strong className="text-xs sm:text-sm font-black text-[#14110F]">
                           ₹{price.toLocaleString('en-IN')}
                         </strong>
-                        <span className="text-xs text-[#81796F] line-through font-medium">
+                        <span className="text-[10px] sm:text-[11px] text-[#81796F] line-through font-medium">
                           ₹{mrp.toLocaleString('en-IN')}
                         </span>
                       </div>
@@ -142,7 +174,7 @@ export function ShoeWall() {
                   </Link>
 
                   {/* Add to Bag Action */}
-                  <div className="mt-2.5 pt-2.5 border-t border-[#E7E1D6]/70">
+                  <div className="mt-2 pt-2 border-t border-[#E7E1D6]/70">
                     <button
                       type="button"
                       onClick={(e) => {
@@ -150,10 +182,10 @@ export function ShoeWall() {
                         e.stopPropagation()
                         addToCart(product, 'UK 8')
                       }}
-                      className="w-full flex items-center justify-center gap-2 rounded-xl bg-[#D9480F] py-2.5 px-3 text-xs font-bold text-white shadow-2xs hover:bg-[#C23E0C] active:scale-98 transition-all cursor-pointer"
+                      className="w-full flex items-center justify-center gap-1.5 rounded-lg bg-[#D9480F] py-1.5 sm:py-2 px-2 text-[11px] font-bold text-white shadow-2xs hover:bg-[#C23E0C] active:scale-98 transition-all cursor-pointer"
                       title="Add to Bag"
                     >
-                      <ShoppingBag size={14} />
+                      <ShoppingBag size={13} />
                       <span>Add to Bag · UK 8</span>
                     </button>
                   </div>

@@ -8,6 +8,7 @@ interface ActionButtonProps {
   href?: string
   variant?: 'primary' | 'secondary' | 'outline' | 'ghost'
   className?: string
+  containerClassName?: string
   magnetic?: boolean
   onClick?: () => void
   target?: string
@@ -21,6 +22,7 @@ export function ActionButton({
   href,
   variant = 'primary',
   className = '',
+  containerClassName = '',
   magnetic = false,
   onClick,
   target,
@@ -88,7 +90,7 @@ export function ActionButton({
       onMouseLeave={handleMouseLeave}
       animate={canMagnetic ? { x: position.x, y: position.y } : { x: 0, y: 0 }}
       transition={{ type: 'spring', stiffness: 260, damping: 20, mass: 0.5 }}
-      className="inline-flex cursor-pointer"
+      className={`inline-flex cursor-pointer ${containerClassName}`}
     >
       {href ? (
         <a
