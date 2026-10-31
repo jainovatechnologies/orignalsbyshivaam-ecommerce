@@ -52,6 +52,146 @@ export const store: StoreInfo = {
   mapsEmbedUrl: process.env.NEXT_PUBLIC_MAPS_EMBED_URL || '',
 }
 
+export const hero = {
+  eyebrow: 'EST. 2017 · MALVIYA NAGAR, JAIPUR', // CONFIRM WITH OWNER
+  headlineLine1: 'Originals',
+  headlineLine2: 'Never Fade.',
+  subline:
+    'Sneakers, bags and apparel from the Malviya Nagar showroom. Try in store, or order on WhatsApp.', // CONFIRM WITH OWNER
+  ctaPrimary: 'Browse the Shoe Wall',
+  ctaSecondary: 'Wholesale enquiry',
+  trustRating: '5.0 on Google · 68 reviews', // SOURCE: Google listing, confirm with owner
+  brandsLine: 'ASICS · HOKA · Nike · adidas · New Balance · Skechers', // CONFIRM WITH OWNER
+  handNote: 'Come in, try a pair.',
+}
+
+export interface HeroHotspot {
+  x: number
+  y: number
+  title: string
+  desc: string
+}
+
+export interface HeroShoe {
+  id: string
+  productId: number
+  brand: string
+  name: string
+  category: string
+  badge: string
+  cutout: string
+  price: number
+  mrp: number
+  discount: string
+  colorName: string
+  aura: string
+  glow: string
+  hotspots: HeroHotspot[]
+}
+
+export const SHOES: HeroShoe[] = [
+  {
+    id: 'shoe-1',
+    productId: 2,
+    brand: 'ASICS',
+    name: 'ASICS Magic Speed 3',
+    category: 'Road Racing',
+    badge: 'Carbon Racer',
+    cutout: 'unnamed__1_-removebg-preview.png',
+    price: 5499,
+    mrp: 10999,
+    discount: '50% OFF',
+    colorName: 'Electric Teal / Mint',
+    aura: 'rgba(20, 184, 166, 0.28)',
+    glow: '#14B8A6',
+    hotspots: [
+      { x: 70, y: 72, title: 'Carbon Plate', desc: 'Full-length TPU carbon composite for explosive propulsion' },
+      { x: 44, y: 55, title: 'FF BLAST™ PLUS', desc: 'High-rebound cushioning for race-pace tempo' },
+      { x: 26, y: 38, title: 'Motion Wrap Mesh', desc: 'Lightweight race-fit lockdown breathable mesh' },
+    ],
+  },
+  {
+    id: 'shoe-2',
+    productId: 3,
+    brand: 'HOKA',
+    name: 'HOKA Hopara Sandal',
+    category: 'All-Terrain Outdoor',
+    badge: 'Trail Hybrid',
+    cutout: 'unnamed__2_-removebg-preview.png',
+    price: 4500,
+    mrp: 15999,
+    discount: '72% OFF',
+    colorName: 'Chalk Bone White',
+    aura: 'rgba(217, 119, 6, 0.25)',
+    glow: '#F59E0B',
+    hotspots: [
+      { x: 74, y: 68, title: 'Toe Shield', desc: 'Rubberized protective cap against rocky terrain' },
+      { x: 48, y: 46, title: 'Quick-Lace Bungee', desc: 'One-pull ergonomic toggle for instant lockdown' },
+      { x: 30, y: 82, title: '4mm Trail Lugs', desc: 'High-traction multidirectional grip outsole' },
+    ],
+  },
+  {
+    id: 'shoe-4',
+    productId: 4,
+    brand: 'ASICS',
+    name: 'ASICS GEL-Nimbus 26',
+    category: 'Max Cushioning',
+    badge: 'Cloud Comfort',
+    cutout: 'unnamed__4_-removebg-preview.png',
+    price: 8499,
+    mrp: 16999,
+    discount: '50% OFF',
+    colorName: 'Deep Cobalt / Navy',
+    aura: 'rgba(37, 99, 235, 0.26)',
+    glow: '#3B82F6',
+    hotspots: [
+      { x: 76, y: 70, title: 'PureGEL™ Tech', desc: '65% softer impact absorption under the heel' },
+      { x: 52, y: 75, title: 'FF BLAST™ ECO', desc: 'Maximum stack height responsive foam midsole' },
+      { x: 36, y: 40, title: 'Knit Stretch Collar', desc: 'Plush sock-like heel wrap with soft entry pull' },
+    ],
+  },
+  {
+    id: 'shoe-5',
+    productId: 1,
+    brand: 'ASICS',
+    name: 'ASICS Skyhand OG',
+    category: 'Heritage Court',
+    badge: 'Archive Street',
+    cutout: 'unnamed__5_-removebg-preview.png',
+    price: 5999,
+    mrp: 9999,
+    discount: '40% OFF',
+    colorName: 'Black & Gum Sole',
+    aura: 'rgba(217, 72, 15, 0.26)',
+    glow: '#D9480F',
+    hotspots: [
+      { x: 78, y: 76, title: 'Gum Rubber Sole', desc: 'Vintage non-marking gum traction court bottom' },
+      { x: 46, y: 50, title: 'Suede Overlays', desc: 'Archival 90s silhouette with reinforced toe cap' },
+      { x: 24, y: 65, title: 'Retro Court Fit', desc: 'Low-profile stance built for clean daily rotation' },
+    ],
+  },
+  {
+    id: 'shoe-7',
+    productId: 7,
+    brand: 'HOKA',
+    name: 'HOKA Ora Recovery Slide 3',
+    category: 'Recovery Footwear',
+    badge: 'Post-Run Comfort',
+    cutout: 'unnamed__7_-removebg-preview.png',
+    price: 2499,
+    mrp: 10999,
+    discount: '77% OFF',
+    colorName: 'Desert Dune Sand',
+    aura: 'rgba(180, 130, 80, 0.28)',
+    glow: '#C8A27A',
+    hotspots: [
+      { x: 70, y: 62, title: 'Dual-Density EVA', desc: 'Soft top layer for instant post-run foot relief' },
+      { x: 44, y: 42, title: 'Meta-Rocker Geometry', desc: 'Smooth forward roll easing tendon strain' },
+      { x: 32, y: 76, title: 'Airflow Channels', desc: 'Ventilated strap design preventing heat buildup' },
+    ],
+  },
+]
+
 export const brands = [
   'ASICS',
   'HOKA',

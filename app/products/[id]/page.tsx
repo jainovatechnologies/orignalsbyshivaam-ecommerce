@@ -133,13 +133,10 @@ export default function ProductDetailPage() {
           {/* Right Column: Buy Box & Product Info */}
           <div className="lg:col-span-5 flex flex-col gap-6">
             <div>
-              {/* Brand & Stock Status */}
-              <div className="flex items-center justify-between">
+              {/* Brand */}
+              <div>
                 <span className="text-xs font-black uppercase tracking-[0.2em] text-[#D9480F]">
                   {product.brand} · AUTHENTIC FOOTWEAR
-                </span>
-                <span className="text-xs font-bold text-emerald-700 flex items-center gap-1 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full">
-                  ● Ready to Ship
                 </span>
               </div>
 

@@ -102,10 +102,6 @@ export function Wholesale() {
                 isHero={false}
                 alt="Wholesale dispatch operations at Originals By Shivaam"
               />
-              <div className="absolute top-3 left-3 rounded-full bg-white/95 backdrop-blur-md px-3 py-1 text-[10px] font-bold tracking-wider uppercase text-[#14110F] flex items-center gap-1.5 border border-[#E7E1D6] shadow-xs">
-                <Truck size={12} className="text-[#D9480F]" />
-                <span>Daily Dispatch Hub</span>
-              </div>
             </div>
 
             {/* Boxes dropping in with stagger on scroll (light container) */}

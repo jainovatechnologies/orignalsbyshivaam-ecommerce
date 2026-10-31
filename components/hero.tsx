@@ -1,130 +1,362 @@
 'use client'
 
-import React from 'react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
+import Image from 'next/image'
+import {
+  LazyMotion,
+  domAnimation,
+  m,
+  AnimatePresence,
+  useReducedMotion,
+} from 'framer-motion'
 import {
   ArrowDownRight,
-  ArrowRight,
-  CheckCircle2,
   MapPin,
   ShoppingBag,
   Star,
-  Truck,
 } from 'lucide-react'
-import { store } from '@/src/data/originals'
-import { ControlledVideo } from './controlled-video'
+import { hero, SHOES, HeroShoe } from '@/src/data/originals'
 
 export function Hero() {
+  const [shoeIndex, setShoeIndex] = useState(0)
+  const [isHovered, setIsHovered] = useState(false)
+  const [tilt, setTilt] = useState({ rotateX: 0, rotateY: 0, normX: 0, normY: 0 })
+  const [isFinePointer, setIsFinePointer] = useState(false)
+
+  const stageRef = useRef<HTMLDivElement>(null)
+  const shouldReduceMotion = useReducedMotion()
+
+  const currentShoe: HeroShoe = SHOES[shoeIndex] || SHOES[0]
+
+  // Detect desktop fine pointer capability
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const mediaQuery = window.matchMedia('(pointer: fine)')
+      setIsFinePointer(mediaQuery.matches)
+      const handler = (e: MediaQueryListEvent) => setIsFinePointer(e.matches)
+      mediaQuery.addEventListener('change', handler)
+      return () => mediaQuery.removeEventListener('change', handler)
+    }
+  }, [])
+
+  // Auto rotation: advance every 5s, pause on hover
+  const changeShoe = useCallback((newIndex: number) => {
+    const nextIdx = (newIndex + SHOES.length) % SHOES.length
+    setShoeIndex(nextIdx)
+  }, [])
+
+  useEffect(() => {
+    if (isHovered || shouldReduceMotion) return
+
+    const timer = setInterval(() => {
+      changeShoe(shoeIndex + 1)
+    }, 5000)
+
+    return () => clearInterval(timer)
+  }, [isHovered, shouldReduceMotion, shoeIndex, changeShoe])
+
+  // Keyboard navigation when stage is focused
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'ArrowRight') {
+      e.preventDefault()
+      changeShoe(shoeIndex + 1)
+    } else if (e.key === 'ArrowLeft') {
+      e.preventDefault()
+      changeShoe(shoeIndex - 1)
+    }
+  }
+
+  // Pointer move handler for 3D tilt, parallax, and specular sheen
+  const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (!stageRef.current || !isFinePointer || shouldReduceMotion) return
+
+    const rect = stageRef.current.getBoundingClientRect()
+    const normX = ((e.clientX - rect.left) / rect.width - 0.5) * 2 // -1 to 1
+    const normY = ((e.clientY - rect.top) / rect.height - 0.5) * 2 // -1 to 1
+
+    setTilt({
+      rotateY: Math.max(-16, Math.min(16, normX * 16)),
+      rotateX: Math.max(-10, Math.min(10, -normY * 10)),
+      normX,
+      normY,
+    })
+  }
+
+  const handlePointerLeave = () => {
+    setIsHovered(false)
+    setTilt({ rotateX: 0, rotateY: 0, normX: 0, normY: 0 })
+  }
+
+  // Parallax background movement: opposite direction
+  const bgParallaxX = -tilt.normX * 18
+  const bgParallaxY = -tilt.normY * 14
+
+  // Sheen gradient sweep
+  const sheenPercent = Math.max(0, Math.min(100, ((tilt.normX + 1) / 2) * 100))
+
+  // Contact shadow reaction to tilt
+  const tiltMagnitude = Math.min(
+    1,
+    Math.sqrt(tilt.normX * tilt.normX + tilt.normY * tilt.normY) / 1.414
+  )
+  const shadowScaleX = 1 - tiltMagnitude * 0.16
+  const shadowOpacity = 1 - tiltMagnitude * 0.22
+
   return (
-    <section className="relative w-full min-h-[calc(100dvh-76px)] lg:h-[calc(100dvh-76px)] min-h-[640px] flex flex-col justify-center overflow-hidden bg-[#FAF8F4] text-[#14110F]">
-      
-      {/* Subtle Background Architectural Ambient Glows */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute -top-32 right-10 h-[500px] w-[500px] rounded-full bg-[#D9480F]/[0.035] blur-[100px]" />
-        <div className="absolute bottom-10 left-1/3 h-[400px] w-[400px] rounded-full bg-[#C8A27A]/[0.06] blur-[120px]" />
-      </div>
+    <LazyMotion features={domAnimation}>
+      <section
+        aria-label="Hero"
+        className="relative w-full min-h-[calc(100svh-76px)] lg:h-[calc(100svh-76px)] min-h-[600px] flex flex-col justify-between overflow-hidden bg-[#FAF8F4] text-[#14110F] select-none transition-colors duration-700"
+      >
+        {/* Dynamic Luminous Aura - morphs with active shoe */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 z-0 overflow-hidden transition-all duration-1000"
+        >
+          {/* Active Shoe Signature Glow */}
+          <div
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[500px] w-[500px] sm:h-[650px] sm:w-[650px] rounded-full blur-[130px] opacity-70 transition-all duration-700"
+            style={{ background: currentShoe.aura }}
+          />
+          <div className="absolute -top-32 -right-20 h-[450px] w-[450px] rounded-full bg-[#D9480F]/[0.04] blur-[130px]" />
+        </div>
 
-      {/* ========================================================= */}
-      {/* MAIN CONTENT CONTAINER (ADAPTIVE ACROSS 1920 & MOBILE)   */}
-      {/* ========================================================= */}
-      <div className="relative z-10 mx-auto w-full max-w-[1780px] px-5 sm:px-8 md:px-12 lg:px-16 2xl:px-20 my-auto py-8 sm:py-10 lg:py-4">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 xl:gap-16 2xl:gap-20 items-center">
+        {/* Architectural 3D Watermark Typography Behind Sneaker */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 flex items-center justify-center z-0 overflow-hidden"
+        >
+          <m.span
+            animate={
+              shouldReduceMotion
+                ? { x: 0, y: 0 }
+                : { x: bgParallaxX * 1.4, y: bgParallaxY * 1.4 }
+            }
+            transition={{ type: 'spring', stiffness: 100, damping: 20 }}
+            className="font-[family-name:var(--font-display)] text-[clamp(110px,20vw,260px)] font-black leading-none tracking-[-0.08em] text-[#14110F]/[0.032] uppercase select-none"
+          >
+            {currentShoe.brand}
+          </m.span>
+        </div>
+
+        {/* ========================================================= */}
+        {/* MAIN HERO CONTAINER (Pixel-Aligned with Site Container)   */}
+        {/* ========================================================= */}
+        <div className="relative z-10 mx-auto w-full max-w-[1780px] px-5 sm:px-8 md:px-12 lg:px-16 2xl:px-20 h-full flex flex-col justify-between py-6 sm:py-8 lg:py-6">
           
-          {/* ----------------------------------------------------- */}
-          {/* LEFT COLUMN: MONUMENTAL E-COMMERCE HEADLINE & ACTIONS */}
-          {/* ----------------------------------------------------- */}
-          <div className="lg:col-span-7 xl:col-span-7 flex flex-col justify-center">
+          {/* MAIN 2-COLUMN HERO DISPLAY */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 items-center gap-6 lg:gap-10 xl:gap-14 my-auto">
             
-            {/* Top Eyebrow Badge (No repetitive text) */}
-            <div className="inline-flex items-center gap-2.5 rounded-full border border-[#E7E1D6] bg-white px-3.5 py-1 text-[11px] font-extrabold tracking-widest uppercase text-[#14110F] shadow-2xs w-fit">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#D9480F] opacity-75" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#D9480F]" />
-              </span>
-              <span>EST. {store.established} · FLAGSHIP SHOWROOM, JAIPUR</span>
-            </div>
-
-            {/* Monumental Headline */}
-            <h1 className="mt-4 sm:mt-5 font-[family-name:var(--font-display)] text-5xl sm:text-7xl md:text-8xl lg:text-[68px] xl:text-[82px] 2xl:text-[96px] font-black leading-[0.94] tracking-[-0.055em] text-[#14110F]">
-              <span className="block pb-2 -mb-2">Originals</span>
-              <span>Never </span>
-              <span className="text-[#F15A22]">Fade.</span>
-            </h1>
-
-            {/* Clear Value Proposition Subtitle */}
-            <p className="mt-4 text-sm sm:text-base lg:text-lg text-[#14110F]/75 max-w-xl leading-relaxed font-medium">
-              India&apos;s independent sneaker &amp; performance footwear destination. 
-              100% verified genuine silhouettes sourced directly for your daily rotation and street culture in Jaipur.
-            </p>
-
-            {/* Refined Sized CTA Buttons */}
-            <div className="mt-6 sm:mt-7 flex flex-wrap items-center gap-3.5">
-              <a
-                href="#shoe-wall"
-                className="group inline-flex items-center gap-2.5 rounded-full bg-[#D9480F] px-6 py-2.5 sm:px-7 sm:py-3 text-[13px] sm:text-sm font-bold text-white shadow-sm hover:bg-[#C23E0C] hover:scale-102 active:scale-98 transition-all cursor-pointer tracking-wide"
-              >
-                <ShoppingBag size={16} />
-                <span>Shop The Shoe Wall</span>
-                <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform" />
-              </a>
-
-              <a
-                href="#visit"
-                className="group inline-flex items-center gap-2 rounded-full border border-[#E7E1D6] bg-white px-5 py-2.5 sm:px-6 sm:py-3 text-[13px] sm:text-sm font-bold text-[#14110F] hover:border-[#D9480F] hover:text-[#D9480F] hover:bg-[#FAF8F4] hover:scale-102 active:scale-98 transition-all cursor-pointer tracking-wide shadow-2xs"
-              >
-                <MapPin size={15} className="text-[#D9480F] group-hover:scale-110 transition-transform" />
-                <span>Visit Showroom</span>
-              </a>
-            </div>
-
-            {/* Strict Single-Line Trust Highlights Row */}
-            <div className="mt-7 flex items-center gap-x-4 sm:gap-x-5 text-xs font-bold text-[#14110F] pt-5 border-t border-[#E7E1D6] max-w-2xl overflow-x-auto no-scrollbar flex-nowrap whitespace-nowrap">
-              <div className="flex items-center gap-1.5 shrink-0">
-                <Star size={14} className="text-[#D9480F] fill-[#D9480F]" />
-                <span>5.0 on Google (68 reviews)</span>
-              </div>
-              <span className="h-3 w-px bg-[#E7E1D6] shrink-0" />
-              <div className="flex items-center gap-1.5 shrink-0">
-                <CheckCircle2 size={14} className="text-[#D9480F]" />
-                <span>100% Genuine Pairs</span>
-              </div>
-              <span className="h-3 w-px bg-[#E7E1D6] shrink-0" />
-              <div className="flex items-center gap-1.5 shrink-0 text-[#81796F]">
-                <Truck size={14} className="text-[#D9480F]" />
-                <span className="text-[#14110F]">Free Pan-India Delivery</span>
-              </div>
-            </div>
-
-            {/* Scribble Note in cursive */}
-            <p className="mt-5 flex items-center gap-2 font-[family-name:var(--font-note)] text-lg sm:text-xl font-bold text-[#9C7A52] -rotate-2 select-none">
-              <span>Come in, try a pair.</span>
-              <ArrowDownRight size={20} className="text-[#9C7A52]" />
-            </p>
-
-          </div>
-
-          {/* ----------------------------------------------------- */}
-          {/* RIGHT COLUMN: REFINED STORE VIDEO SHOWCASE CARD       */}
-          {/* ----------------------------------------------------- */}
-          <div className="lg:col-span-5 xl:col-span-5 flex flex-col justify-center items-center lg:items-end">
-            <div className="relative w-full max-w-[440px] xl:max-w-[480px] 2xl:max-w-[520px] aspect-[4/4.3] rounded-[28px] overflow-hidden border border-[#E7E1D6] shadow-xl bg-[#EDE8DF] group">
+            {/* ----------------------------------------------------- */}
+            {/* LEFT COLUMN: ORIGINAL EDITORIAL TYPOGRAPHY & COPY     */}
+            {/* ----------------------------------------------------- */}
+            <div className="lg:col-span-5 flex flex-col justify-center z-20">
               
-              {/* Store Video with Autoplay and Poster Fallback */}
-              <ControlledVideo
-                src="/videos/hero-store.mp4"
-                poster="/images/hero-store-poster.jpg"
-                isHero={true}
-                alt="Inside Originals By Shivaam Jaipur Showroom"
-                className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-103"
-              />
+              {/* Single Clean Eyebrow */}
+              <div className="flex items-center gap-2 text-[12px] font-extrabold uppercase tracking-[0.14em] text-[#14110F] mb-2.5">
+                <span className="h-1.5 w-1.5 rounded-full bg-[#D9480F] shrink-0" />
+                <span>{hero.eyebrow}</span>
+              </div>
 
-              {/* Subtle Inset Ring */}
-              <div className="pointer-events-none absolute inset-0 rounded-[28px] ring-1 ring-inset ring-black/5" />
+              {/* Iconic Headline: Originals Never Fade */}
+              <h1 className="font-[family-name:var(--font-display)] text-[clamp(44px,min(7.5vw,12vh),108px)] font-black leading-[1.02] tracking-[-0.055em] text-[#14110F]">
+                {/* Line 1: Originals */}
+                <span className="block overflow-hidden pb-[0.14em] -mb-[0.14em]">
+                  <m.span
+                    initial={shouldReduceMotion ? { y: 0 } : { y: '110%' }}
+                    animate={{ y: 0 }}
+                    transition={{ duration: 0.9, delay: 0.0, ease: [0.22, 1, 0.36, 1] }}
+                    className="inline-block"
+                  >
+                    {hero.headlineLine1}
+                  </m.span>
+                </span>
+                {/* Line 2: Never Fade. */}
+                <span className="block overflow-hidden pb-[0.14em] -mb-[0.14em]">
+                  <m.span
+                    initial={shouldReduceMotion ? { y: 0 } : { y: '110%' }}
+                    animate={{ y: 0 }}
+                    transition={{ duration: 0.9, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
+                    className="inline-block text-[#F15A22]"
+                  >
+                    {hero.headlineLine2}
+                  </m.span>
+                </span>
+              </h1>
+
+              {/* Subline */}
+              <p className="mt-4 text-[15px] sm:text-[17px] font-medium leading-relaxed text-[#14110F]/80 max-w-[28rem]">
+                {hero.subline}
+              </p>
+
+              {/* Shorter, Sleeker CTA Buttons */}
+              <div className="mt-5 flex flex-wrap items-center gap-2.5">
+                <a
+                  href="#shoe-wall"
+                  className="btn-primary inline-flex h-[42px] items-center justify-center gap-2 rounded-full px-5 text-xs font-bold uppercase tracking-wider text-white shadow-sm hover:scale-105 active:scale-95 transition-all cursor-pointer"
+                >
+                  <ShoppingBag size={14} />
+                  <span>Browse Shoes</span>
+                  <ArrowDownRight size={14} />
+                </a>
+
+                <a
+                  href="#inside-store"
+                  className="inline-flex h-[42px] items-center justify-center gap-1.5 rounded-full border border-[#14110F] bg-white/60 backdrop-blur-xs px-4 text-xs font-bold uppercase tracking-wider text-[#14110F] hover:bg-[#14110F] hover:text-white transition-all cursor-pointer"
+                >
+                  <MapPin size={14} />
+                  <span>Visit Showroom</span>
+                </a>
+              </div>
+
+              {/* Trust Strip & Brands */}
+              <div className="mt-5 pt-3 border-t border-[#E7E1D6] max-w-md space-y-1">
+                <div className="flex items-center gap-1.5 text-[13px] font-bold text-[#14110F]">
+                  <Star size={14} className="text-[#D9480F] fill-[#D9480F]" />
+                  <span>{hero.trustRating}</span>
+                </div>
+                <p className="text-[12px] font-semibold text-[#81796F] tracking-wide">
+                  {hero.brandsLine}
+                </p>
+              </div>
+
+              {/* Handwritten Note in Caveat */}
+              <p className="mt-2.5 flex items-center gap-2 font-[family-name:var(--font-note)] text-[22px] font-bold text-[#9C7A52] -rotate-2 select-none">
+                <span>{hero.handNote}</span>
+                <ArrowDownRight size={20} className="text-[#9C7A52]" />
+              </p>
+
             </div>
+
+            {/* ----------------------------------------------------- */}
+            {/* RIGHT COLUMN: 3D SNEAKER SHOWCASE (No Bulky Card)     */}
+            {/* ----------------------------------------------------- */}
+            <div className="lg:col-span-7 relative flex flex-col items-center justify-center z-10">
+              
+              {/* THE 3D INTERACTIVE SNEAKER STAGE */}
+              <div
+                ref={stageRef}
+                role="region"
+                aria-label="3D Sneaker Showcase"
+                tabIndex={0}
+                onKeyDown={handleKeyDown}
+                onPointerEnter={() => setIsHovered(true)}
+                onPointerLeave={handlePointerLeave}
+                onPointerMove={handlePointerMove}
+                className="relative w-full max-w-[640px] h-[320px] sm:h-[380px] md:h-[420px] flex items-center justify-center outline-none cursor-grab active:cursor-grabbing"
+                style={{
+                  perspective: '1400px',
+                  transformStyle: 'preserve-3d',
+                }}
+              >
+                {/* 3D Spring Tilt Wrapper */}
+                <m.div
+                  animate={{
+                    rotateX: isFinePointer && isHovered && !shouldReduceMotion ? tilt.rotateX : 0,
+                    rotateY: isFinePointer && isHovered && !shouldReduceMotion ? tilt.rotateY : 0,
+                    scale: isHovered && !shouldReduceMotion ? 1.03 : 1,
+                  }}
+                  transition={{ type: 'spring', stiffness: 150, damping: 20 }}
+                  className="relative w-full h-full flex items-center justify-center"
+                  style={{ transformStyle: 'preserve-3d' }}
+                >
+                  {/* Zero-Gravity Levitation Float */}
+                  <m.div
+                    animate={
+                      shouldReduceMotion || isHovered
+                        ? { y: 0, rotateZ: 0 }
+                        : {
+                            y: [-8, 8, -8],
+                            rotateZ: [-1, 1, -1],
+                          }
+                    }
+                    transition={{
+                      y: { duration: 4.0, repeat: Infinity, ease: 'easeInOut' },
+                      rotateZ: { duration: 5.5, repeat: Infinity, ease: 'easeInOut' },
+                    }}
+                    className="relative w-full h-full flex items-center justify-center"
+                    style={{ transformStyle: 'preserve-3d' }}
+                  >
+                    {/* AnimatePresence for Shoe Change Transition */}
+                    <AnimatePresence mode="wait">
+                      <m.div
+                        key={currentShoe.id}
+                        initial={
+                          shouldReduceMotion
+                            ? { opacity: 1, scale: 1 }
+                            : { opacity: 0, scale: 0.90, y: 20, rotateY: 12 }
+                        }
+                        animate={{ opacity: 1, scale: 1, y: 0, rotateY: 0 }}
+                        exit={
+                          shouldReduceMotion
+                            ? { opacity: 0 }
+                            : { opacity: 0, scale: 0.92, y: -20, rotateY: -12 }
+                        }
+                        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                        className="relative w-full h-full flex items-center justify-center"
+                        style={{ willChange: 'transform' }}
+                      >
+                        {/* High-Resolution Cutout Sneaker */}
+                        <div className="relative w-[92%] h-[92%] max-w-[560px] max-h-[380px]">
+                          <Image
+                            src={`/images/no-bg/${currentShoe.cutout}`}
+                            alt={currentShoe.name}
+                            fill
+                            priority
+                            quality={85}
+                            sizes="(max-width: 768px) 95vw, 560px"
+                            className="object-contain object-center drop-shadow-2xl pointer-events-none select-none"
+                          />
+                        </div>
+
+                        {/* Moving Specular Sheen Layer clipped to shoe */}
+                        <div
+                          aria-hidden="true"
+                          className="absolute inset-0 pointer-events-none"
+                          style={{
+                            background:
+                              'linear-gradient(115deg, transparent 30%, rgba(255,255,255,0.6) 50%, transparent 70%)',
+                            backgroundSize: '200% 200%',
+                            backgroundPosition: `${sheenPercent}% 50%`,
+                            mixBlendMode: 'soft-light',
+                            WebkitMaskImage: `url(/images/no-bg/${currentShoe.cutout})`,
+                            maskImage: `url(/images/no-bg/${currentShoe.cutout})`,
+                            WebkitMaskSize: 'contain',
+                            maskSize: 'contain',
+                            WebkitMaskRepeat: 'no-repeat',
+                            maskRepeat: 'no-repeat',
+                            WebkitMaskPosition: 'center center',
+                            maskPosition: 'center center',
+                          }}
+                        />
+                      </m.div>
+                    </AnimatePresence>
+                  </m.div>
+                </m.div>
+
+                {/* Dynamic Contact Shadow reacting to tilt */}
+                <m.div
+                  aria-hidden="true"
+                  animate={
+                    shouldReduceMotion
+                      ? { scaleX: 1, opacity: 1 }
+                      : { scaleX: shadowScaleX, opacity: shadowOpacity }
+                  }
+                  transition={{ type: 'spring', stiffness: 150, damping: 20 }}
+                  style={{
+                    background:
+                      'radial-gradient(ellipse at center, rgba(20,17,15,0.32) 0%, transparent 72%)',
+                  }}
+                  className="absolute bottom-2 left-1/2 -translate-x-1/2 w-[62%] h-[22px] rounded-full pointer-events-none z-0"
+                />
+              </div>
+
+            </div>
+
           </div>
 
         </div>
-      </div>
-
-    </section>
+      </section>
+    </LazyMotion>
   )
 }

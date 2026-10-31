@@ -102,7 +102,7 @@ export function ShoeWall() {
                     href={`/products/${product.id}`}
                     className="flex flex-col text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D9480F] rounded-xl"
                   >
-                    {/* Media container */}
+                    {/* Media container - Clean & clear image without overlapping labels */}
                     <div className="relative aspect-square w-full overflow-hidden rounded-xl bg-[#F6F4EE]">
                       <Image
                         src={product.image}
@@ -112,29 +112,25 @@ export function ShoeWall() {
                         quality={75}
                         className="object-cover transition-transform duration-500 ease-out group-hover:scale-106"
                       />
-
-                      {/* Clean Floating Discount Pill */}
-                      {discountPercent > 0 && (
-                        <span className="absolute top-2.5 left-2.5 rounded-full bg-white/95 backdrop-blur-xs px-2.5 py-0.5 text-[10px] font-black tracking-wide text-[#D9480F] shadow-2xs border border-[#E7E1D6]">
-                          {discountPercent}% OFF
-                        </span>
-                      )}
-
-                      <span className="absolute bottom-2.5 right-2.5 rounded-lg bg-white/95 backdrop-blur-xs px-2.5 py-1 text-[10px] font-extrabold text-[#14110F] shadow-2xs border border-[#E7E1D6] opacity-90 group-hover:opacity-100 group-hover:bg-[#14110F] group-hover:text-white transition-all">
-                        View Pair →
-                      </span>
                     </div>
 
                     {/* Info block */}
                     <div className="pt-3.5 pb-1 flex flex-col">
-                      <span className="text-[10px] font-black uppercase tracking-wider text-[#9C7A52]">
-                        {product.brand}
-                      </span>
-                      <h3 className="text-sm sm:text-[15px] font-bold text-[#14110F] line-clamp-1 group-hover:text-[#D9480F] transition-colors mt-0.5">
+                      <div className="flex items-center justify-between gap-1">
+                        <span className="text-[10px] font-black uppercase tracking-wider text-[#9C7A52]">
+                          {product.brand}
+                        </span>
+                        {discountPercent > 0 && (
+                          <span className="rounded-md bg-[#D9480F]/10 border border-[#D9480F]/20 px-2 py-0.5 text-[10px] font-extrabold text-[#D9480F]">
+                            {discountPercent}% OFF
+                          </span>
+                        )}
+                      </div>
+                      <h3 className="text-sm sm:text-[15px] font-bold text-[#14110F] line-clamp-1 group-hover:text-[#D9480F] transition-colors mt-1">
                         {product.name}
                       </h3>
 
-                      <div className="flex items-center gap-2 mt-1.5">
+                      <div className="flex items-baseline gap-2 mt-2">
                         <strong className="text-sm sm:text-base font-black text-[#14110F]">
                           ₹{price.toLocaleString('en-IN')}
                         </strong>
