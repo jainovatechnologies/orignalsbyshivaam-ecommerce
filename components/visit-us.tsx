@@ -17,7 +17,7 @@ export function VisitUs() {
 
   return (
     <section id="visit" className="py-20 md:py-28 bg-[#F4EFE6] border-t border-[#E7E1D6]">
-      <div className="mx-auto max-w-7xl px-5 md:px-8">
+      <div className="mx-auto max-w-[1780px] px-5 sm:px-8 md:px-12 lg:px-16 2xl:px-20">
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-14 items-center">
           {/* Left Column: Details & Contacts */}
           <ScrollReveal direction="up" delay={0.1} className="lg:col-span-6">

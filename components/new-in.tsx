@@ -8,7 +8,7 @@ import { ScrollReveal } from './scroll-reveal'
 export function NewIn() {
   return (
     <section className="py-20 md:py-28 bg-[#F4EFE6] border-t border-[#E7E1D6]">
-      <div className="mx-auto max-w-7xl px-5 md:px-8">
+      <div className="mx-auto max-w-[1780px] px-5 sm:px-8 md:px-12 lg:px-16 2xl:px-20">
         <ScrollReveal>
           <div className="max-w-2xl mb-12">
             <p className="text-[11px] font-extrabold tracking-[0.2em] text-[#D9480F] uppercase mb-2">

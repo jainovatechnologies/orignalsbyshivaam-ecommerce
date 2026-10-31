@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 import { ArrowRight, Menu, Phone, ShoppingBag, X } from 'lucide-react'
 import { store } from '@/src/data/originals'
 import { ActionButton } from './action-button'
@@ -13,11 +14,11 @@ export function Nav() {
 
   return (
     <>
-      <header className="sticky top-0 z-40 w-full border-b border-[#E7E1D6] bg-[#FAF8F4]/95 backdrop-blur-md transition-all">
-        <div className="mx-auto flex h-[76px] max-w-7xl items-center justify-between px-5 md:px-8">
-          {/* Logo with official logo-originals.png image */}
-          <a
-            href="#top"
+      <header className="sticky top-0 z-40 w-full bg-[#FAF8F4]/90 backdrop-blur-md transition-all">
+        <div className="mx-auto flex h-[76px] max-w-[1780px] items-center justify-between px-5 sm:px-8 md:px-12 lg:px-16 2xl:px-20">
+          {/* Logo with official logo-originals.png image - Redirects to Homepage */}
+          <Link
+            href="/"
             className="flex items-center gap-3 focus-visible:outline-none group cursor-pointer"
           >
             <div className="relative h-11 w-11 shrink-0 overflow-hidden rounded-full border border-[#E7E1D6] bg-white shadow-xs group-hover:scale-105 transition-transform">
@@ -36,52 +37,52 @@ export function Nav() {
                 BY SHIVAAM
               </span>
             </div>
-          </a>
+          </Link>
 
           {/* Desktop Nav */}
           <nav className="hidden items-center gap-7 text-[13px] font-bold md:flex text-[#14110F]">
-            <a
-              href="#categories"
+            <Link
+              href="/#categories"
               className="transition-colors hover:text-[#D9480F] cursor-pointer"
             >
               Categories
-            </a>
-            <a
-              href="#shoe-wall"
+            </Link>
+            <Link
+              href="/#shoe-wall"
               className="transition-colors hover:text-[#D9480F] cursor-pointer"
             >
               Shoe Wall
-            </a>
-            <a
-              href="#inside-store"
+            </Link>
+            <Link
+              href="/#inside-store"
               className="transition-colors hover:text-[#D9480F] cursor-pointer"
             >
               Inside Store
-            </a>
-            <a
-              href="#wholesale"
+            </Link>
+            <Link
+              href="/#wholesale"
               className="transition-colors hover:text-[#D9480F] cursor-pointer"
             >
               Wholesale
-            </a>
-            <a
-              href="#reviews"
+            </Link>
+            <Link
+              href="/#reviews"
               className="transition-colors hover:text-[#D9480F] cursor-pointer"
             >
               Reviews
-            </a>
-            <a
-              href="#visit"
+            </Link>
+            <Link
+              href="/#visit"
               className="transition-colors hover:text-[#D9480F] cursor-pointer"
             >
               Visit
-            </a>
-            <a
-              href="#faq"
+            </Link>
+            <Link
+              href="/#faq"
               className="transition-colors hover:text-[#D9480F] cursor-pointer"
             >
               FAQ
-            </a>
+            </Link>
             <button
               type="button"
               onClick={openCart}
@@ -118,55 +119,55 @@ export function Nav() {
         {mobileOpen && (
           <div className="border-b border-[#E7E1D6] bg-[#FAF8F4] px-6 py-6 md:hidden animate-in slide-in-from-top-2 duration-200">
             <div className="flex flex-col gap-4 text-base font-bold text-[#14110F]">
-              <a
-                href="#categories"
+              <Link
+                href="/#categories"
                 onClick={() => setMobileOpen(false)}
                 className="py-1 cursor-pointer"
               >
                 Categories
-              </a>
-              <a
-                href="#shoe-wall"
+              </Link>
+              <Link
+                href="/#shoe-wall"
                 onClick={() => setMobileOpen(false)}
                 className="py-1 cursor-pointer"
               >
                 Shoe Wall
-              </a>
-              <a
-                href="#inside-store"
+              </Link>
+              <Link
+                href="/#inside-store"
                 onClick={() => setMobileOpen(false)}
                 className="py-1 cursor-pointer"
               >
                 Inside Store
-              </a>
-              <a
-                href="#wholesale"
+              </Link>
+              <Link
+                href="/#wholesale"
                 onClick={() => setMobileOpen(false)}
                 className="py-1 cursor-pointer"
               >
                 Wholesale
-              </a>
-              <a
-                href="#reviews"
+              </Link>
+              <Link
+                href="/#reviews"
                 onClick={() => setMobileOpen(false)}
                 className="py-1 cursor-pointer"
               >
                 Customer Reviews
-              </a>
-              <a
-                href="#visit"
+              </Link>
+              <Link
+                href="/#visit"
                 onClick={() => setMobileOpen(false)}
                 className="py-1 cursor-pointer"
               >
                 Visit Store
-              </a>
-              <a
-                href="#faq"
+              </Link>
+              <Link
+                href="/#faq"
                 onClick={() => setMobileOpen(false)}
                 className="py-1 cursor-pointer"
               >
                 FAQ
-              </a>
+              </Link>
               <div className="pt-2 flex flex-col gap-2.5">
                 <button
                   type="button"

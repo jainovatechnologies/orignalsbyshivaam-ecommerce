@@ -72,23 +72,25 @@ a {
 /* Secondary Button */
 .btn-secondary,
 [data-variant="secondary"] {
-  background-color: transparent !important;
+  background-color: #FFFFFF !important;
   color: #14110F !important;
-  border: 1.5px solid #14110F !important;
+  border: 1px solid #E7E1D6 !important;
   font-weight: 700 !important;
   min-height: 44px;
   cursor: pointer !important;
+  transition: all 0.2s ease !important;
 }
 
 .btn-secondary:hover,
 [data-variant="secondary"]:hover {
-  background-color: #14110F !important;
-  color: #FFFFFF !important;
+  background-color: #FAF8F4 !important;
+  color: #D9480F !important;
+  border-color: #D9480F !important;
 }
 
 .btn-secondary:hover * {
-  color: #FFFFFF !important;
-  stroke: #FFFFFF !important;
+  color: #D9480F !important;
+  stroke: #D9480F !important;
 }
 
 /* Accents & highlights */

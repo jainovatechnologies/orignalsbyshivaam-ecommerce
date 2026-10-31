@@ -47,7 +47,7 @@ export function ShoeWall() {
 
   return (
     <section id="shoe-wall" className="py-20 md:py-28 bg-white relative border-t border-[#E7E1D6]">
-      <div className="mx-auto max-w-7xl px-5 md:px-8">
+      <div className="mx-auto max-w-[1780px] px-5 sm:px-8 md:px-12 lg:px-16 2xl:px-20">
         {/* Section Heading */}
         <ScrollReveal>
           <div className="max-w-2xl">
@@ -89,6 +89,7 @@ export function ShoeWall() {
           {filteredProducts.map((product, idx) => {
             const price = product.ourPrice || 4499
             const mrp = product.mrp || 8999
+            const discountPercent = Math.round(((mrp - price) / mrp) * 100)
             return (
               <ScrollReveal
                 key={product.id}
@@ -96,80 +97,71 @@ export function ShoeWall() {
                 delay={shouldReduceMotion ? 0 : Math.min((idx % 4) * 0.08, 0.3)}
                 className="flex flex-col"
               >
-                <Link
-                  href={`/products/${product.id}`}
-                  className="group relative flex flex-col text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D9480F] rounded-2xl cursor-pointer transition-transform duration-300 hover:-translate-y-2"
-                >
-                  {/* Media container */}
-                  <div className="relative aspect-square w-full overflow-hidden rounded-[16px] bg-[#EBE5DA] shadow-sm transition-all duration-300 group-hover:shadow-xl">
-                    <Image
-                      src={product.image}
-                      alt={product.name}
-                      fill
-                      sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                      quality={70}
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
+                <div className="group relative flex flex-col justify-between rounded-2xl border border-[#E7E1D6] bg-white p-3 sm:p-3.5 shadow-2xs hover:shadow-xl hover:border-[#D9480F]/40 hover:-translate-y-1.5 transition-all duration-300">
+                  <Link
+                    href={`/products/${product.id}`}
+                    className="flex flex-col text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D9480F] rounded-xl"
+                  >
+                    {/* Media container */}
+                    <div className="relative aspect-square w-full overflow-hidden rounded-xl bg-[#F6F4EE]">
+                      <Image
+                        src={product.image}
+                        alt={product.name}
+                        fill
+                        sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                        quality={75}
+                        className="object-cover transition-transform duration-500 ease-out group-hover:scale-106"
+                      />
 
-                    {SHOW_SAMPLE_PRICES && (
-                      <span className="absolute top-2.5 left-2.5 rounded-full bg-[#14110F]/85 backdrop-blur-xs px-2.5 py-0.5 text-[10px] font-bold text-white tracking-wide">
-                        Deal
+                      {/* Clean Floating Discount Pill */}
+                      {discountPercent > 0 && (
+                        <span className="absolute top-2.5 left-2.5 rounded-full bg-white/95 backdrop-blur-xs px-2.5 py-0.5 text-[10px] font-black tracking-wide text-[#D9480F] shadow-2xs border border-[#E7E1D6]">
+                          {discountPercent}% OFF
+                        </span>
+                      )}
+
+                      <span className="absolute bottom-2.5 right-2.5 rounded-lg bg-white/95 backdrop-blur-xs px-2.5 py-1 text-[10px] font-extrabold text-[#14110F] shadow-2xs border border-[#E7E1D6] opacity-90 group-hover:opacity-100 group-hover:bg-[#14110F] group-hover:text-white transition-all">
+                        View Pair →
                       </span>
-                    )}
-
-                    <span className="absolute bottom-2.5 right-2.5 rounded-md bg-white/95 backdrop-blur-xs px-2 py-0.5 text-[10px] font-bold text-[#14110F] shadow-xs border border-[#E7E1D6] group-hover:bg-[#14110F] group-hover:text-white transition-colors">
-                      View Details
-                    </span>
-                  </div>
-
-                  {/* Info block */}
-                  <div className="pt-3 pb-2 flex flex-col gap-1">
-                    <span className="text-[10px] font-black uppercase tracking-wider text-[#D9480F]">
-                      {product.brand}
-                    </span>
-                    <strong className="text-sm font-bold text-[#14110F] line-clamp-1 group-hover:text-[#D9480F] transition-colors">
-                      {product.name}
-                    </strong>
-
-                    <div className="flex items-baseline gap-2 mt-0.5">
-                      <span className="text-xs text-[#81796F] line-through">
-                        ₹{mrp.toLocaleString('en-IN')}
-                      </span>
-                      <strong className="text-sm font-black text-[#14110F]">
-                        ₹{price.toLocaleString('en-IN')}
-                      </strong>
                     </div>
 
-                    <div className="flex items-center justify-between mt-1 pt-1.5 border-t border-[#E7E1D6]/70">
-                      <span className="text-[11px] font-bold text-emerald-700 flex items-center gap-1">
-                        ● In Stock
+                    {/* Info block */}
+                    <div className="pt-3.5 pb-1 flex flex-col">
+                      <span className="text-[10px] font-black uppercase tracking-wider text-[#9C7A52]">
+                        {product.brand}
                       </span>
-                      <button
-                        type="button"
-                        onClick={(e) => {
-                          e.preventDefault()
-                          e.stopPropagation()
-                          addToCart(product, 'UK 8')
-                        }}
-                        className="text-[11px] font-extrabold text-[#D9480F] hover:text-[#b33608] hover:bg-[#D9480F]/10 px-2 py-0.5 rounded transition-all cursor-pointer flex items-center gap-1"
-                        title="Add to Bag"
-                      >
-                        <span>Add to Bag</span>
-                        <span className="group-hover:translate-x-0.5 transition-transform">→</span>
-                      </button>
-                    </div>
-                  </div>
-                </Link>
+                      <h3 className="text-sm sm:text-[15px] font-bold text-[#14110F] line-clamp-1 group-hover:text-[#D9480F] transition-colors mt-0.5">
+                        {product.name}
+                      </h3>
 
-                {/* Wooden shelf line drawing in left-to-right on scroll */}
-                <m.div
-                  initial={{ scaleX: shouldReduceMotion ? 1 : 0 }}
-                  whileInView={{ scaleX: 1 }}
-                  viewport={{ once: true, amount: 0.2 }}
-                  transition={{ duration: 0.6, ease: 'easeOut' }}
-                  style={{ transformOrigin: 'left' }}
-                  className="mt-1 h-[5px] w-full rounded-full bg-[#C8A27A]"
-                />
+                      <div className="flex items-center gap-2 mt-1.5">
+                        <strong className="text-sm sm:text-base font-black text-[#14110F]">
+                          ₹{price.toLocaleString('en-IN')}
+                        </strong>
+                        <span className="text-xs text-[#81796F] line-through font-medium">
+                          ₹{mrp.toLocaleString('en-IN')}
+                        </span>
+                      </div>
+                    </div>
+                  </Link>
+
+                  {/* Add to Bag Action */}
+                  <div className="mt-2.5 pt-2.5 border-t border-[#E7E1D6]/70">
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.preventDefault()
+                        e.stopPropagation()
+                        addToCart(product, 'UK 8')
+                      }}
+                      className="w-full flex items-center justify-center gap-2 rounded-xl bg-[#D9480F] py-2.5 px-3 text-xs font-bold text-white shadow-2xs hover:bg-[#C23E0C] active:scale-98 transition-all cursor-pointer"
+                      title="Add to Bag"
+                    >
+                      <ShoppingBag size={14} />
+                      <span>Add to Bag · UK 8</span>
+                    </button>
+                  </div>
+                </div>
               </ScrollReveal>
             )
           })}

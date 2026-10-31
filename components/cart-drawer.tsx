@@ -12,17 +12,45 @@ export function CartDrawer() {
   const [orderPlaced, setOrderPlaced] = useState(false)
   const router = useRouter()
 
-  // Prevent background scrolling when cart drawer is open
+  // Prevent background scrolling and propagation when cart drawer is open
   useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = ''
+    if (!isOpen) return
+
+    const originalHtmlOverflow = document.documentElement.style.overflow
+    const originalBodyOverflow = document.body.style.overflow
+    const originalTouchAction = document.body.style.touchAction
+
+    document.documentElement.style.overflow = 'hidden'
+    document.body.style.overflow = 'hidden'
+    document.body.style.touchAction = 'none'
+
+    const handleWheelOrTouch = (e: WheelEvent | TouchEvent) => {
+      const panel = document.getElementById('cart-drawer-panel')
+      // If event happened outside drawer panel, block it completely
+      if (!panel || !panel.contains(e.target as Node)) {
+        e.preventDefault()
+      }
     }
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        closeCart()
+      }
+    }
+
+    window.addEventListener('wheel', handleWheelOrTouch, { passive: false })
+    window.addEventListener('touchmove', handleWheelOrTouch, { passive: false })
+    window.addEventListener('keydown', handleKeyDown)
+
     return () => {
-      document.body.style.overflow = ''
+      document.documentElement.style.overflow = originalHtmlOverflow
+      document.body.style.overflow = originalBodyOverflow
+      document.body.style.touchAction = originalTouchAction
+      window.removeEventListener('wheel', handleWheelOrTouch)
+      window.removeEventListener('touchmove', handleWheelOrTouch)
+      window.removeEventListener('keydown', handleKeyDown)
     }
-  }, [isOpen])
+  }, [isOpen, closeCart])
 
   if (!isOpen) return null
 
@@ -41,10 +69,21 @@ export function CartDrawer() {
     <div
       className="fixed inset-0 z-50 flex justify-end bg-[#14110F]/65 backdrop-blur-xs animate-in fade-in duration-200"
       onClick={closeCart}
+      onWheel={(e) => {
+        e.preventDefault()
+        e.stopPropagation()
+      }}
+      onTouchMove={(e) => {
+        e.preventDefault()
+        e.stopPropagation()
+      }}
     >
       <aside
-        className="relative h-full w-full max-w-[420px] bg-[#FAF8F4] border-l border-[#E7E1D6] shadow-2xl flex flex-col justify-between overflow-hidden"
+        id="cart-drawer-panel"
+        className="relative h-full w-full max-w-[420px] bg-[#FAF8F4] border-l border-[#E7E1D6] shadow-2xl flex flex-col justify-between overflow-hidden overscroll-contain"
         onClick={(e) => e.stopPropagation()}
+        onWheel={(e) => e.stopPropagation()}
+        onTouchMove={(e) => e.stopPropagation()}
       >
         {/* Top Header */}
         <div className="flex items-center justify-between border-b border-[#E7E1D6] px-5 py-3.5 bg-white shrink-0">
@@ -123,9 +162,9 @@ export function CartDrawer() {
             </div>
           ) : (
             <>
-              {/* Product list - compact items, max 3 items fit with 0 scroll on standard screens */}
-              <div className="space-y-2.5 overflow-hidden">
-                {items.slice(0, 3).map((item) => {
+              {/* Product list with smooth internal scroll */}
+              <div className="space-y-2.5 overflow-y-auto max-h-[calc(100vh-330px)] pr-1 overscroll-contain">
+                {items.map((item) => {
                   const price = item.product.ourPrice || item.product.mrp || 4999
                   return (
                     <div

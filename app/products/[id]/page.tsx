@@ -81,7 +81,7 @@ export default function ProductDetailPage() {
       <CartDrawer />
 
       {/* Main Container */}
-      <main className="mx-auto max-w-7xl px-5 py-6 md:px-8 md:py-10 overflow-hidden">
+      <main className="mx-auto max-w-[1780px] px-5 sm:px-8 md:px-12 lg:px-16 2xl:px-20 py-6 md:py-10 overflow-hidden">
         {/* Breadcrumb Navigation */}
         <nav aria-label="Breadcrumb" className="mb-6 flex items-center gap-2 text-xs font-semibold text-[#81796F]">
           <Link href="/" className="hover:text-[#D9480F] transition-colors">
@@ -111,23 +111,6 @@ export default function ProductDetailPage() {
                 sizes="(max-width: 1024px) 100vw, 60vw"
                 className="object-cover object-center group-hover:scale-105 transition-transform duration-500"
               />
-
-              {/* Badges Overlays */}
-              <div className="absolute top-4 left-4 flex flex-col gap-2">
-                <span className="rounded-full bg-[#14110F]/90 backdrop-blur-md px-3.5 py-1 text-xs font-bold text-white shadow-xs">
-                  {discountPercent}% OFF
-                </span>
-                <span className="rounded-full bg-white/95 backdrop-blur-md px-3 py-1 text-[11px] font-extrabold uppercase tracking-wider text-[#D9480F] border border-[#E7E1D6] shadow-xs">
-                  100% Verified Original
-                </span>
-              </div>
-
-              <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between pointer-events-none">
-                <div className="rounded-full bg-white/90 backdrop-blur-md px-3 py-1 text-[11px] font-bold text-[#14110F] flex items-center gap-1.5 shadow-xs">
-                  <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
-                  <span>In Stock at Jaipur Showroom</span>
-                </div>
-              </div>
             </div>
 
             {/* Thumbnail Selectors */}
@@ -463,9 +446,6 @@ export default function ProductDetailPage() {
                         sizes="240px"
                         className="object-cover group-hover:scale-105 transition-transform duration-300"
                       />
-                      <span className="absolute top-2 left-2 rounded-full bg-[#14110F]/80 backdrop-blur-xs px-2 py-0.5 text-[9px] font-bold text-white">
-                        Deal
-                      </span>
                     </div>
 
                     <div className="mt-2.5 flex flex-col gap-0.5">

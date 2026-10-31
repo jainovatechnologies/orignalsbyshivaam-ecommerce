@@ -66,7 +66,7 @@ export function ActionButton({
   const variantClasses = isPrimary
     ? 'btn-primary bg-[#D9480F] !text-white hover:bg-[#c43f0c] shadow-sm active:translate-y-px'
     : variant === 'secondary'
-      ? 'btn-secondary border border-[#14110F] bg-transparent !text-[#14110F] hover:bg-[#14110F] hover:!text-white'
+      ? 'btn-secondary border border-[#E7E1D6] bg-white !text-[#14110F] hover:border-[#D9480F] hover:!text-[#D9480F] hover:bg-[#FAF8F4]'
       : variant === 'outline'
         ? 'border border-[#E7E1D6] bg-white/70 text-[#14110F] hover:bg-white'
         : 'bg-transparent text-[#14110F] hover:bg-[#14110F]/5'

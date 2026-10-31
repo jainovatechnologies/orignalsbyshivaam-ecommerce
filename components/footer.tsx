@@ -2,6 +2,7 @@
 
 import React from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 import { ArrowRight, Compass, Phone, ShoppingBag, ShieldCheck } from 'lucide-react'
 import { store } from '@/src/data/originals'
 import { InstagramIcon } from './icons'
@@ -16,12 +17,12 @@ export function Footer() {
   return (
     <>
       <footer className="border-t border-[#E7E1D6] bg-[#F4EFE6] pt-16 pb-28 md:pb-16 text-[#14110F]">
-        <div className="mx-auto max-w-7xl px-5 md:px-8">
+        <div className="mx-auto max-w-[1780px] px-5 sm:px-8 md:px-12 lg:px-16 2xl:px-20">
           <div className="grid grid-cols-1 gap-10 md:grid-cols-12 md:gap-8 items-start">
-            {/* Logo Column */}
+            {/* Logo Column - Redirects to Homepage */}
             <div className="md:col-span-5">
-              <a
-                href="#top"
+              <Link
+                href="/"
                 className="flex items-center gap-3 cursor-pointer group"
               >
                 <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-full border border-[#E7E1D6] bg-white shadow-xs group-hover:scale-105 transition-transform">
@@ -39,7 +40,7 @@ export function Footer() {
                     BY SHIVAAM
                   </span>
                 </div>
-              </a>
+              </Link>
               <p className="mt-4 text-xs sm:text-sm text-[#81796F] max-w-sm leading-relaxed">
                 Independent premium footwear retailer and wholesale supplier based in
                 Malviya Nagar, Jaipur. 100% verified authentic sneakers with express insured Pan-India shipping.

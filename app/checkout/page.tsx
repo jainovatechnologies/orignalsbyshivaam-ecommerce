@@ -88,7 +88,7 @@ export default function CheckoutPage() {
     <div className="min-h-screen bg-[#FAF8F4] text-[#14110F]">
       {/* Checkout Minimal Header */}
       <header className="border-b border-[#E7E1D6] bg-white sticky top-0 z-40">
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 md:px-8">
+        <div className="mx-auto flex h-16 max-w-[1780px] items-center justify-between px-5 sm:px-8 md:px-12 lg:px-16 2xl:px-20">
           <Link href="/" className="flex items-center gap-2 group cursor-pointer">
             <ArrowLeft size={16} className="text-[#81796F] group-hover:text-[#14110F] transition-colors" />
             <span className="text-xs font-bold text-[#81796F] group-hover:text-[#14110F]">
@@ -114,7 +114,7 @@ export default function CheckoutPage() {
       </header>
 
       {/* Main Checkout Content */}
-      <main className="mx-auto max-w-7xl px-5 py-8 md:px-8 md:py-12">
+      <main className="mx-auto max-w-[1780px] px-5 sm:px-8 md:px-12 lg:px-16 2xl:px-20 py-8 md:py-12">
         {orderConfirmed ? (
           /* Order Confirmation Screen */
           <div className="mx-auto max-w-xl rounded-3xl border border-[#E7E1D6] bg-white p-8 md:p-10 shadow-lg text-center animate-in zoom-in-95 duration-300">

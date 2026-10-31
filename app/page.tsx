@@ -12,7 +12,6 @@ import { OurStory } from '@/components/our-story'
 import { CustomerReviews } from '@/components/customer-reviews'
 import { VisitUs } from '@/components/visit-us'
 import { FAQ } from '@/components/faq'
-import { FinalCTA } from '@/components/final-cta'
 import { Footer } from '@/components/footer'
 import { SmoothScroll } from '@/components/smooth-scroll'
 import { MotionProvider } from '@/components/motion-provider'
@@ -64,9 +63,6 @@ export default function Page() {
 
             {/* FAQ */}
             <FAQ />
-
-            {/* Final CTA */}
-            <FinalCTA />
           </main>
           <Footer />
         </div>

@@ -14,7 +14,7 @@ export function FAQ() {
 
   return (
     <section id="faq" className="py-20 md:py-28 bg-[#FAF8F4] border-t border-[#E7E1D6]">
-      <div className="mx-auto max-w-7xl px-5 md:px-8">
+      <div className="mx-auto max-w-[1780px] px-5 sm:px-8 md:px-12 lg:px-16 2xl:px-20">
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-16">
           {/* Left Column: Heading */}
           <ScrollReveal direction="up" delay={0.1} className="lg:col-span-5">

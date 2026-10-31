@@ -48,7 +48,7 @@ const categories: CategoryItem[] = [
 export function ShopByCategory() {
   return (
     <section id="categories" className="py-20 md:py-28 bg-white border-t border-[#E7E1D6]">
-      <div className="mx-auto max-w-7xl px-5 md:px-8">
+      <div className="mx-auto max-w-[1780px] px-5 sm:px-8 md:px-12 lg:px-16 2xl:px-20">
         {/* Section Header */}
         <ScrollReveal>
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-14 gap-4">
